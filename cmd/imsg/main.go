@@ -56,6 +56,7 @@ func main() {
 
 func newChatsCmd() *cobra.Command {
 	var limit int
+	var jsonOut bool
 	cmd := &cobra.Command{
 		Use:   "chats",
 		Short: "List recent conversations",
@@ -72,6 +73,21 @@ func newChatsCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
+			if jsonOut {
+				enc := json.NewEncoder(os.Stdout)
+				for _, c := range chats {
+					if err := enc.Encode(map[string]any{
+						"id":              c.ID,
+						"name":            c.Name,
+						"identifier":      c.Identifier,
+						"service":         c.Service,
+						"last_message_at": c.LastMessageAt.Format(time.RFC3339),
+					}); err != nil {
+						return err
+					}
+				}
+				return nil
+			}
 			for _, c := range chats {
 				fmt.Printf("[%d] %s (%s) last=%s\n", c.ID, c.Name, c.Identifier, c.LastMessageAt.Format(time.RFC3339))
 			}
@@ -79,6 +95,7 @@ func newChatsCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().IntVar(&limit, "limit", 20, "Number of chats to list")
+	cmd.Flags().BoolVar(&jsonOut, "json", false, "emit JSON objects instead of plain text")
 	return cmd
 }
 

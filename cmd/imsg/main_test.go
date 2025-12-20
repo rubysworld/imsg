@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"database/sql"
+	"encoding/json"
 	"io"
 	"os"
 	"strings"
@@ -84,6 +86,37 @@ func TestChatsCommandPrintsChats(t *testing.T) {
 	}
 	if !strings.Contains(out, "Test Chat") {
 		t.Fatalf("expected chat name in output, got %s", out)
+	}
+}
+
+func TestChatsCommandPrintsJSON(t *testing.T) {
+	dbPath = buildTempDB(t)
+	cmd := newChatsCmd()
+	cmd.SetContext(context.Background())
+	cmd.SetArgs([]string{"--limit", "5", "--json"})
+
+	out := captureOutput(t, func() {
+		if err := cmd.Execute(); err != nil {
+			t.Fatalf("execute chats: %v", err)
+		}
+	})
+
+	scanner := bufio.NewScanner(strings.NewReader(out))
+	if !scanner.Scan() {
+		t.Fatalf("expected JSON output, got empty")
+	}
+	var payload map[string]any
+	if err := json.Unmarshal(scanner.Bytes(), &payload); err != nil {
+		t.Fatalf("invalid JSON: %v", err)
+	}
+	if payload["name"] != "Test Chat" {
+		t.Fatalf("expected name, got %#v", payload["name"])
+	}
+	if payload["identifier"] != "+123" {
+		t.Fatalf("expected identifier, got %#v", payload["identifier"])
+	}
+	if payload["last_message_at"] == "" {
+		t.Fatalf("expected last_message_at, got empty")
 	}
 }
 

@@ -22,7 +22,7 @@ go install github.com/steipete/imsg/cmd/imsg@latest
 ```
 
 ## Commands
-- `imsg chats [--limit 20]` — list recent conversations.
+- `imsg chats [--limit 20] [--json]` — list recent conversations.
 - `imsg history --chat-id <id> [--limit 50] [--attachments] [--participants +15551234567,...] [--start 2025-01-01T00:00:00Z] [--end 2025-02-01T00:00:00Z] [--json]`
 - `imsg watch [--chat-id <id>] [--since-rowid <n>] [--interval 2s] [--attachments] [--participants …] [--start …] [--end …] [--json]`
 - `imsg send --to <handle> [--text "hi"] [--file /path/img.jpg] [--service imessage|sms|auto] [--region US]`
@@ -31,6 +31,9 @@ go install github.com/steipete/imsg/cmd/imsg@latest
 ```
 # list 5 chats
 imsg chats --limit 5
+
+# list chats as JSON
+imsg chats --limit 5 --json
 
 # last 10 messages in chat 1 with attachments
 imsg history --chat-id 1 --limit 10 --attachments
@@ -48,6 +51,7 @@ imsg send --to "+14155551212" --text "hi" --file ~/Desktop/pic.jpg --service ime
 ## Examples
 ```bash
 imsg chats --limit 5
+imsg chats --limit 5 --json
 imsg history --chat-id 1 --attachments --start 2025-01-01T00:00:00Z --json
 imsg watch --chat-id 1 --attachments --participants +15551234567
 imsg send --to "+14155551212" --text "ping" --file ~/Desktop/pic.png --service imessage
@@ -57,7 +61,8 @@ imsg send --to "+14155551212" --text "ping" --file ~/Desktop/pic.png --service i
 `--attachments` prints per-attachment lines with name, MIME, missing flag, and resolved path (tilde expanded). Only metadata is shown; files aren’t copied.
 
 ## JSON output
-`--json` emits one JSON object per message with fields: `id`, `chat_id`, `sender`, `is_from_me`, `text`, `created_at`, `attachments` (array of metadata).
+`imsg chats --json` emits one JSON object per chat with fields: `id`, `name`, `identifier`, `service`, `last_message_at`.
+`imsg history --json` and `imsg watch --json` emit one JSON object per message with fields: `id`, `chat_id`, `sender`, `is_from_me`, `text`, `created_at`, `attachments` (array of metadata).
 
 ## Permissions troubleshooting
 If you see “unable to open database file” or empty output:
