@@ -3,15 +3,9 @@
 ## Unreleased
 - feat: expose message guid + reply_to_guid metadata in JSON output
 - fix: exclude reaction rows from history/watch output and tighten reaction matching
-- fix: reject reply_to_guid sends (AppleScript limitation)
-- fix: stabilize IMCore send initialization and handle resolution
-- feat: add IMCore reaction send support
-- fix: detect IMDaemon connectivity for IMCore mode and fail fast when unavailable
 - fix: fall back to destination_caller_id when sender handle is missing
-- test: add reply + reaction filtering coverage
 - test: cover destination_caller_id sender fallback
-- feat: add send mode switch (applescript vs IMCore private API)
-- docs: add private API notes
+- chore: remove private API send mode from main
 
 ## 0.3.0 - 2026-01-02
 - feat: JSON-RPC server over stdin/stdout (`imsg rpc`) with chats, history, watch, and send

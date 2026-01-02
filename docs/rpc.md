@@ -55,22 +55,10 @@ Params (direct):
 - `file` (string, optional)
 - `service` ("imessage"|"sms"|"auto", optional)
 - `region` (string, optional)
-- `reply_to_guid` (string, optional; not supported by AppleScript sends)
-- `reaction_type` (string, optional; imcore only)
-- `reaction_to_guid` (string, optional; imcore only)
-- `reaction_remove` (bool, optional; imcore only)
-- `send_mode` ("applescript"|"imcore"|"auto", optional)
-  - `imcore` requires `IMSG_ALLOW_PRIVATE=1`
 
 Params (group):
 - `chat_id` or `chat_identifier` or `chat_guid` (one required; `chat_id` preferred)
 - `text` / `file` as above
-- `reply_to_guid` (string, optional; not supported by AppleScript sends)
-- `reaction_type` (string, optional; imcore only)
-- `reaction_to_guid` (string, optional; imcore only)
-- `reaction_remove` (bool, optional; imcore only)
-- `send_mode` ("applescript"|"imcore"|"auto", optional)
-  - `imcore` requires `IMSG_ALLOW_PRIVATE=1`
 
 Result:
 - `{ "ok": true }`
