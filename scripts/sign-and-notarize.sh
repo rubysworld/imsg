@@ -55,6 +55,8 @@ xcrun notarytool submit "$ZIP_PATH" \
   --wait
 
 codesign --verify --strict --verbose=4 "$DIST_DIR/imsg"
-spctl -a -t exec -vv "$DIST_DIR/imsg"
+if ! spctl -a -t exec -vv "$DIST_DIR/imsg"; then
+  echo "spctl check failed (CLI binaries often report 'not an app')." >&2
+fi
 
 echo "Done: $ZIP_PATH"
