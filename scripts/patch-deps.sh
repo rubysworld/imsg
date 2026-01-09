@@ -3,6 +3,14 @@ set -euo pipefail
 
 SQLITE_PACKAGE=".build/checkouts/SQLite.swift/Package.swift"
 PHONE_NUMBER_BUNDLE=".build/checkouts/PhoneNumberKit/PhoneNumberKit/Bundle+Resources.swift"
+COMMANDER_PACKAGE=".build/checkouts/Commander/Package.swift"
+
+# Patch Commander to support macOS 13
+if [[ -f "$COMMANDER_PACKAGE" ]]; then
+  chmod u+w "$COMMANDER_PACKAGE" || true
+  sed -i '' 's/\.macOS(.v14)/.macOS(.v13)/g' "$COMMANDER_PACKAGE" 2>/dev/null || \
+  sed -i 's/\.macOS(.v14)/.macOS(.v13)/g' "$COMMANDER_PACKAGE"
+fi
 
 if [[ ! -f "$SQLITE_PACKAGE" ]]; then
   exit 0
