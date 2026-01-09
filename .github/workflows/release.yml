@@ -43,21 +43,11 @@ jobs:
       - name: Sync version
         run: scripts/generate-version.sh
 
-      - name: Build
-        run: swift build -c release --product imsg
-
-      - name: Codesign
-        run: codesign --force --sign - --entitlements Resources/imsg.entitlements --identifier com.steipete.imsg .build/release/imsg
+      - name: Build universal binary
+        run: OUTPUT_DIR=dist scripts/build-universal.sh
 
       - name: Package artifact
         run: |
-          mkdir -p dist
-          cp .build/release/imsg dist/imsg
-          for bundle in .build/release/*.bundle; do
-            if [ -e "$bundle" ]; then
-              cp -R "$bundle" dist/
-            fi
-          done
           (
             cd dist
             shopt -s nullglob
