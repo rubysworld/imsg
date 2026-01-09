@@ -1,6 +1,7 @@
 # Changelog
 
-## Unreleased
+## 0.4.1 - 2026-01-09
+- fix: support macOS 13 Ventura (lowered deployment target)
 
 ## 0.4.0 - 2026-01-07
 - feat: surface audio message transcriptions (thanks @antons)
