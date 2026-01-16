@@ -9,7 +9,7 @@ let package = Package(
         .executable(name: "imsg", targets: ["imsg"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/steipete/Commander.git", from: "0.2.0"),
+        .package(path: "../Commander-local"),
         .package(url: "https://github.com/stephencelis/SQLite.swift.git", from: "0.15.4"),
         .package(url: "https://github.com/marmelroy/PhoneNumberKit.git", from: "4.2.2"),
     ],
@@ -28,7 +28,7 @@ let package = Package(
         name: "imsg",
         dependencies: [
             "IMsgCore",
-            .product(name: "Commander", package: "Commander"),
+            .product(name: "Commander", package: "Commander-local"),
         ],
         exclude: [
             "Resources/Info.plist",
